@@ -147,8 +147,6 @@ const GlobalStyles = createGlobalStyle`
   justify-content: center;
   align-items: center;
 }
-
-
 `
 
 export default GlobalStyles
