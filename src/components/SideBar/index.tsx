@@ -2,8 +2,6 @@ import React, { useCallback, useState } from 'react'
 import { BiLogOut } from 'react-icons/bi'
 import { Link, useLocation } from 'react-router-dom'
 
-
-import { ReactComponent as Arrow } from '../../assets/arrow.svg'
 import { dashboard, personalization, others } from './data/menus'
 import { LogoContainer, LogoutButton, Menus, SideBarContainer } from './style'
 
@@ -69,7 +67,6 @@ const SideBar: React.FC = () => {
                           menuChildrenToBeShown.includes(index) ? 'active' : ''
                         }`}
                       >
-                        <Arrow />
                       </span>
                     </button>
                     <div style={{ marginLeft: '25px' }}>

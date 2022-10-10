@@ -3,7 +3,7 @@ import axios from "axios"
 
 export const signIn = async (data) => {
   console.log(data)
-    const createContentDataResponse = await (await axios.get('http://localhost:3000/api/entrar', data))
+    const createContentDataResponse = (await axios.get('http://localhost:3000/api/entrar', data))
     console.log(createContentDataResponse)
     return createContentDataResponse
   }

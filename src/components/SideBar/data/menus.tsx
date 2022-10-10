@@ -1,15 +1,10 @@
 import { BsJournalText } from 'react-icons/bs'
 
-import { ReactComponent as Academic } from '../../../assets/academic.svg'
-import { ReactComponent as Graph } from '../../../assets/graph.svg'
-import { ReactComponent as Store } from '../../../assets/store.svg'
-import { ReactComponent as User } from '../../../assets/user.svg'
 
 export const dashboard = {
   label: (
     <>
       <div className="icon">
-        <Store />
       </div>
 
       <span className="text">Início</span>
@@ -22,7 +17,6 @@ export const personalization = [
     label: (
       <>
         <div className="icon">
-          <User />
         </div>
         <span className="text">Usuários</span>
       </>
@@ -33,7 +27,6 @@ export const personalization = [
     label: (
       <>
         <div className="icon">
-          <Academic />
         </div>
 
         <span className="text">Acadêmico</span>
@@ -116,7 +109,6 @@ export const others = {
   label: (
     <>
       <div className="icon">
-        <Graph />
       </div>
 
       <span className="text">Relatórios</span>
