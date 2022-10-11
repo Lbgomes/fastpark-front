@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle, css } from 'styled-components'
 
 const GlobalStyles = createGlobalStyle`
 :root {
@@ -23,17 +23,18 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
+  ${({ theme }) => css`
     //scrollbar configuration
     ::-webkit-scrollbar {
       width: 0.8rem;
       height: 0.8rem;
     }
     ::-webkit-scrollbar-track {
-      background: #101010;
+      background: ${theme.colors.black};
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #E4672E;
+      background: ${theme.colors.primary};
       border-radius: 1rem;
     }
 
@@ -42,11 +43,12 @@ const GlobalStyles = createGlobalStyle`
     }
 
     body {
-      background-color: #1C1C1C;
-      color: #fff;
-      font-family: 'Nunito Sans', sans-serif;
-      font-size: 1.6rem;
+      background-color: ${theme.colors.background};
+      color: ${theme.colors.white};
+      font-family: ${theme.font.family};
+      font-size: ${theme.sizes.medium};
     }
+  `}
 
   & .swal2-popup {
     font-size: 1.75rem;
@@ -147,6 +149,8 @@ const GlobalStyles = createGlobalStyle`
   justify-content: center;
   align-items: center;
 }
+
+
 `
 
 export default GlobalStyles
