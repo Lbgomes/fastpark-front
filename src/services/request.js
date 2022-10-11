@@ -3,7 +3,7 @@ import axios from "axios"
 
 export const signIn = async (data) => {
   console.log(data)
-    const createContentDataResponse = await axios.post('http://localhost:6060/auth/entrar', data)
+    const createContentDataResponse = await (await axios.post('http://localhost:6060/auth/entrar', data)).data
     return createContentDataResponse
   }
 
