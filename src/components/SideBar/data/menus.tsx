@@ -1,6 +1,6 @@
-import { BsJournalText } from 'react-icons/bs'
-
-
+import { BsJournalText, BsPerson } from 'react-icons/bs'
+import { ReactComponent as User } from '../../assets/user.svg'
+import {FaUser, FaChartPie} from 'react-icons/fa'
 export const dashboard = {
   label: (
     <>
@@ -17,56 +17,14 @@ export const personalization = [
     label: (
       <>
         <div className="icon">
+            <FaUser />
         </div>
         <span className="text">Usuários</span>
       </>
     ),
     path: '/users'
   },
-  {
-    label: (
-      <>
-        <div className="icon">
-        </div>
 
-        <span className="text">Acadêmico</span>
-      </>
-    ),
-    children: [
-      {
-        label: (
-          <>
-            <span className="text">Autores</span>
-          </>
-        ),
-        path: '/authors'
-      },
-      {
-        label: (
-          <>
-            <span className="text">Categorias</span>
-          </>
-        ),
-        path: '/categories'
-      },
-      {
-        label: (
-          <>
-            <span className="text">Conteúdo</span>
-          </>
-        ),
-        path: '/contents'
-      },
-      {
-        label: (
-          <>
-            <span className="text">Trilha</span>
-          </>
-        ),
-        path: '/trail'
-      }
-    ]
-  },
   {
     label: (
       <>
@@ -74,41 +32,18 @@ export const personalization = [
           <BsJournalText />
         </div>
 
-        <span className="text">Assinaturas</span>
+        <span className="text">Checkin</span>
       </>
     ),
-    children: [
-      {
-        label: (
-          <>
-            <span className="text">Planos</span>
-          </>
-        ),
-        path: '/plans'
-      },
-      {
-        label: (
-          <>
-            <span className="text">Cupons</span>
-          </>
-        ),
-        path: '/coupon'
-      },
-      {
-        label: (
-          <>
-            <span className="text">Cobranças</span>
-          </>
-        ),
-        path: '/charges'
-      }
-    ]
+    path: '/checkin'
+
   }
 ]
 export const others = {
   label: (
     <>
       <div className="icon">
+        <FaChartPie />
       </div>
 
       <span className="text">Relatórios</span>

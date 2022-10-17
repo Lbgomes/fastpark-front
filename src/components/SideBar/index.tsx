@@ -57,49 +57,24 @@ const SideBar: React.FC = () => {
           <h2>Personalização</h2>
           <div className="options">
             {personalization && personalization.length ? (
-              personalization.map((menu, index) =>
-                menu.children && menu.children.length ? (
+              personalization.map((menu, index) => (
+                <Link
+                key={menu.path}
+                to={menu.path}>
                   <div key={index}>
                     <button onClick={() => showOrHideMenuChildren(index)}>
                       {menu.label}
                       <span
                         className={`sub-items ${
-                          menuChildrenToBeShown.includes(index) ? 'active' : ''
+                            menuChildrenToBeShown.includes(index) ? 'active' : ''
                         }`}
-                      >
+                        >
                       </span>
                     </button>
-                    <div style={{ marginLeft: '25px' }}>
-                      {checkShouldShowMenuChildren(index) ? (
-                        menu.children.map((child) => (
-                          <Link
-                            className={
-                              location.pathname === child.path ? 'active' : ''
-                            }
-                            key={child.path}
-                            to={child.path}
-                          >
-                            {child.label}
-                          </Link>
-                        ))
-                      ) : (
-                        <></>
-                      )}
-                    </div>
+
                   </div>
-                ) : menu.path ? (
-                  <Link
-                    className={location.pathname === menu.path ? 'active' : ''}
-                    key={menu.path}
-                    to={menu.path}
-                  >
-                    {menu.label}
-                  </Link>
-                ) : (
-                  <></>
-                )
-              )
-            ) : (
+                          </Link>
+            ))) : (
               <></>
             )}
           </div>
