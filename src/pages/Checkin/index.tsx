@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
-import { AiOutlineCheck, AiOutlineEdit } from 'react-icons/ai'
-import { BiErrorAlt, BiTrash } from 'react-icons/bi'
+import { useEffect, useMemo, useState } from 'react'
+import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai'
+import { BiErrorAlt } from 'react-icons/bi'
 import { Link, useHistory } from 'react-router-dom'
 
 import Box from '../../components/Box'
@@ -10,21 +10,31 @@ import Checkbox from '../../components/Checkbox'
 import PageTitle from '../../components/PageTitle'
 import Table from '../../components/Table'
 
-import contents from '../../mock/mock.json'
+import CheckinModel from '../../models/checkin'
+import { getAllCheckin } from '../../services/checkin'
 import { Container } from './styles'
 
 export default function Checkin() {
-  const [plans, setPlans] = useState([] as any[])
-  const [selectAll, setSelectAll] = useState<boolean>(false)
+  const [checkins, setCheckin] = useState({} as CheckinModel)
+  console.log(checkins)
   const history = useHistory()
 
   const createPlan = (): void => {
     history.push('create-plan')
   }
-
+  const getCheckin = async() => {
+    const checkinList = await getAllCheckin()
+    if(checkinList) {
+        setCheckin(checkinList)
+    }
+  }
+useEffect(() => {
+    getCheckin()
+}, [])
+    console.log()
   const contentsToBeShown = useMemo(() => {
-    return contents && contents.length
-      ? contents.map((content) => ({
+    return checkins.data && checkins.data.length
+      ? checkins.data.map((content) => ({
           selectAll: (
             <div
               style={{
@@ -35,20 +45,12 @@ export default function Checkin() {
               <Checkbox />
             </div>
           ),
-          id: content.content_id,
-          title: content.title,
-          vantage: content.description,
-          price: content.description,
-          active: (
-            <div
-              style={{
-                display: 'flex',
-                gap: '5px'
-              }}
-            >
-              <AiOutlineCheck size={25} />
-            </div>
-          ),
+          id: content.id,
+          title: content.emailFuncionario,
+          hrEntrada: content.hrEntrada,
+          Placa: content.car.placa,
+          price: content.valorFinal,
+          model: content.car.modelo,
           actions: (
             <div
               style={{
@@ -79,7 +81,7 @@ export default function Checkin() {
           )
         }))
       : []
-  }, [  ])
+  }, [checkins.data])
 
   return (
     <Container>
@@ -109,16 +111,16 @@ export default function Checkin() {
             propName: 'title'
           },
           {
-            headerLabel: <span>Hora de entrada</span>,
-            propName: 'vantage'
+            headerLabel: <span>Data e hora de entrada</span>,
+            propName: 'hrEntrada'
           },
           {
-              headerLabel: <span>Estacionado</span>,
-              propName: 'active'
+              headerLabel: <span>Modelo</span>,
+              propName: 'model'
             },
             {
               headerLabel: <span>Placa</span>,
-              propName: 'price'
+              propName: 'Placa'
             },
           {
             headerLabel: <span>Ações</span>,
