@@ -31,6 +31,13 @@ export const LogoContainer = styled.span`
   }
 `
 
+export const Logo = styled.img`
+  width: 200px;
+  height: 200px;
+  margin-left: 25%;
+  margin-right: 25%;
+`
+
 export const LoginContainer = styled.div`
   display: flex;
   align-items: center;

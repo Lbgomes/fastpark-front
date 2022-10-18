@@ -5,6 +5,8 @@ import { Link, useLocation } from 'react-router-dom'
 import { dashboard, personalization, others } from './data/menus'
 import { LogoContainer, LogoutButton, Menus, SideBarContainer } from './style'
 
+import Logo from '../../assets/LogoFastPark.svg'
+
 const SideBar: React.FC = () => {
   const location = useLocation()
 
@@ -37,7 +39,7 @@ const SideBar: React.FC = () => {
       <Menus>
         <div>
           <LogoContainer>
-            <img src="/logo.png" alt="logo" />
+            <img src={Logo} alt="logo" />
           </LogoContainer>
           <div className="options">
             {dashboard.path ? (

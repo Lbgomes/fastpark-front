@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useUserStore } from '../../GlobalState';
 import { signIn } from '../../services/request';
 import * as S from './styles'
+import LogoFastPark from '../../assets/LogoFastPark.svg'
 
 export default function Login() {
 
+  const history = useHistory()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [authResponse, setAuthResponse] = useState(false)
@@ -33,7 +36,9 @@ export default function Login() {
   }, [authResponse])
 
   useEffect(() => {
-    console.log('Teste auth2', userStore.Autenticated)
+    if (userStore.Autenticated) {
+      history.push('/home')
+    }
   }, [userStore.Autenticated])
 
   return (
@@ -41,9 +46,10 @@ export default function Login() {
       <S.LoginContainer>
         <S.LoginBlock>
           <S.LoginTitle>Que bom te ver aqui!</S.LoginTitle>
-          <S.LoginDescription>
-            Bem vinde à plataforma administrativa da SJTMED PLAY
-          </S.LoginDescription>
+          <S.Logo
+            src={LogoFastPark}
+            className='Logo'
+          />
           <S.LoginForm onSubmit={handleLogin}>
             <S.LoginLabel>
               Login
