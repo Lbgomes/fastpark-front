@@ -7,31 +7,84 @@ import Box from '../../components/Box'
 import BreadCrumb from '../../components/BreadCrumb'
 import Button from '../../components/Button/Button/index'
 import Checkbox from '../../components/Checkbox'
+import FormGroup from '../../components/FormGroup'
+import Input from '../../components/Input'
+import Label from '../../components/Label'
+import { hideModal, showModal } from '../../components/modal'
 import PageTitle from '../../components/PageTitle'
 import Table from '../../components/Table'
-
 import CheckinModel from '../../models/checkin'
-import { getAllCheckin } from '../../services/checkin'
-import { Container } from './styles'
+import {
+  createCheckin as createCheckinService,
+  getAllCheckin
+} from '../../services/checkin'
+import { Container, FormContainer } from './styles'
 
 export default function Checkin() {
   const [checkins, setCheckin] = useState({} as CheckinModel)
-  console.log(checkins)
-  const history = useHistory()
+  const [email, setEmail] = useState('eduardo@eduardo.com')
+  const [model, setModel] = useState('')
+  const [color, setColor] = useState('')
+  const [plate, setPlate] = useState('')
 
-  const createPlan = (): void => {
-    history.push('create-plan')
+  const clearData = () => {
+    setPlate('')
+    setColor('')
+    setModel('')
   }
-  const getCheckin = async() => {
-    const checkinList = await getAllCheckin()
-    if(checkinList) {
-        setCheckin(checkinList)
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    try {
+      const createCheckin = {
+        emailFuncionario: email,
+        cor: color,
+        modelo: model,
+        placa: plate
+      }
+      await createCheckinService(createCheckin)
+      hideModal()
+      clearData()
+      getCheckin()
+    } catch (e: any) {
+      return alert(`deu erro ${e}`)
     }
   }
-useEffect(() => {
+  const newCheckin = () => {
+    showModal({
+      title: 'Novo Checkin',
+      content: (
+        <>
+          <form onSubmit={handleSubmit}>
+            <FormContainer>
+              <FormGroup>
+                <Label>Modelo</Label>
+                <Input type="text" onChange={(e) => setModel(e.target.value)} />
+              </FormGroup>
+              <FormGroup>
+                <Label>Placa</Label>
+                <Input type="text" onChange={(e) => setPlate(e.target.value)} />
+              </FormGroup>
+              <FormGroup>
+                <Label>Cor</Label>
+                <Input type="text" onChange={(e) => setColor(e.target.value)} />
+              </FormGroup>
+            </FormContainer>
+            <Button type="submit">Criar</Button>
+          </form>
+        </>
+      )
+    })
+  }
+  const getCheckin = async () => {
+    const checkinList = await getAllCheckin()
+    if (checkinList) {
+      setCheckin(checkinList)
+    }
+  }
+  useEffect(() => {
     getCheckin()
-}, [])
-    console.log()
+  }, [])
   const contentsToBeShown = useMemo(() => {
     return checkins.data && checkins.data.length
       ? checkins.data.map((content) => ({
@@ -76,7 +129,6 @@ useEffect(() => {
                   <BiErrorAlt className="icon-danger" />
                 </div>
               </Button>
-
             </div>
           )
         }))
@@ -97,7 +149,7 @@ useEffect(() => {
       <PageTitle>CheckIn</PageTitle>
 
       <Box padding="0 0 20px 0">
-        <Button onClick={createPlan}>Novo CheckIn</Button>
+        <Button onClick={newCheckin}>Novo CheckIn</Button>
       </Box>
 
       <Table
@@ -107,7 +159,7 @@ useEffect(() => {
             propName: 'selectAll'
           },
           {
-            headerLabel: <span>Responsavel  </span>,
+            headerLabel: <span>Responsavel </span>,
             propName: 'title'
           },
           {
@@ -115,13 +167,13 @@ useEffect(() => {
             propName: 'hrEntrada'
           },
           {
-              headerLabel: <span>Modelo</span>,
-              propName: 'model'
-            },
-            {
-              headerLabel: <span>Placa</span>,
-              propName: 'Placa'
-            },
+            headerLabel: <span>Modelo</span>,
+            propName: 'model'
+          },
+          {
+            headerLabel: <span>Placa</span>,
+            propName: 'Placa'
+          },
           {
             headerLabel: <span>Ações</span>,
             propName: 'actions'

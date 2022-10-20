@@ -1,20 +1,20 @@
-
-
-interface Checkin {
-   data: [{
-    id: string,
-    hrEntrada: string,
-    hrSaida: string,
-    isParking: boolean,
-    emailFuncionario: string,
-    valorFinal: number
-    car: {
-        placa: string,
-        modelo: string,
+interface CheckinForCreate {
+  data: [
+    {
+      id: string
+      hrEntrada: string
+      hrSaida: string
+      isParking: boolean
+      emailFuncionario: string
+      valorFinal: number
+      car: {
+        placa: string
+        modelo: string
         cor: string
+      }
     }
-    }]
-    status: number
+  ]
+  status: number
 }
 
-export default Checkin
+export default CheckinForCreate
