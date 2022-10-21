@@ -1,7 +1,9 @@
-import { useEffect, useMemo, useState } from 'react'
-import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai'
+import React, { useEffect, useMemo, useState } from 'react'
+import { AiOutlineEdit } from 'react-icons/ai'
 import { BiErrorAlt } from 'react-icons/bi'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+
+import Swal from 'sweetalert2'
 
 import Box from '../../components/Box'
 import BreadCrumb from '../../components/BreadCrumb'
@@ -19,6 +21,7 @@ import {
   createCheckin as createCheckinService,
   getAllCheckin
 } from '../../services/checkin'
+import { createCheckOut } from '../../services/checkout'
 import { Container, FormContainer } from './styles'
 
 export default function Checkin() {
@@ -41,7 +44,40 @@ export default function Checkin() {
     setBody(true)
   }
 
-  const createBody = async() => {
+  const handleCheckout = async (checkinId: string) => {
+    event.preventDefault()
+
+    Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'O checkout não poderá ser desfeito',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim, realizar checkout',
+      width: 600,
+      heightAuto: true
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await createCheckOut(checkinId)
+          Swal.fire({
+            title: 'Sucesso',
+            text: 'Checkin criado com sucesso',
+            icon: 'success'
+          })
+          getCheckin()
+        } catch (error) {
+          Swal.fire(
+            'Deu ruim!',
+            'Não foi possível realizar o checkout',
+            'error'
+          )
+        }
+      }
+    })
+  }
+  const createBody = async () => {
     try {
       const createCheckin = {
         emailFuncionario: userStore.userEmail,
@@ -49,19 +85,26 @@ export default function Checkin() {
         modelo: model,
         placa: plate
       }
-      console.log('Teste model: ', createCheckin)
-      const res = await createCheckinService(createCheckin)
-      console.log('res: ', res)
+      await createCheckinService(createCheckin)
+      Swal.fire({
+        title: 'Sucesso',
+        text: 'Checkin criado com sucesso',
+        icon: 'success'
+      })
       hideModal()
       clearData()
       getCheckin()
     } catch (e: any) {
-      return alert(`deu erro ${e}`)
+      Swal.fire({
+        title: 'Deu ruim',
+        text: 'Houve um erro ao criar o checkin',
+        icon: 'error'
+      })
     }
   }
 
   useEffect(() => {
-    if(body){
+    if (body) {
       createBody()
     }
   }, [body])
@@ -107,50 +150,42 @@ export default function Checkin() {
   const contentsToBeShown = useMemo(() => {
     return checkins.data && checkins.data.length
       ? checkins.data.map((content) => ({
-        selectAll: (
-          <div
-            style={{
-              display: 'flex',
-              gap: '5px'
-            }}
-          >
-            <Checkbox />
-          </div>
-        ),
-        id: content.id,
-        title: content.emailFuncionario,
-        hrEntrada: content.hrEntrada,
-        Placa: content.car.placa,
-        price: content.valorFinal,
-        model: content.car.modelo,
-        actions: (
-          <div
-            style={{
-              display: 'flex',
-              gap: '5px'
-            }}
-          >
-            <Button
-              className="small danger"
-              title="Editar Usuário"
-              styleButton="edit"
+          selectAll: (
+            <div
+              style={{
+                display: 'flex',
+                gap: '5px'
+              }}
             >
-              <div>
-                <AiOutlineEdit className="icon-danger" />
-              </div>
-            </Button>
-            <Button
-              className="small danger"
-              title="Atenção Usuário"
-              styleButton="attencion"
+              <Checkbox />
+            </div>
+          ),
+          id: content.id,
+          title: content.emailFuncionario,
+          hrEntrada: content.hrEntrada,
+          Placa: content.car.placa,
+          price: content.valorFinal,
+          model: content.car.modelo,
+          actions: (
+            <div
+              style={{
+                display: 'flex',
+                gap: '5px'
+              }}
             >
-              <div>
-                <BiErrorAlt className="icon-danger" />
-              </div>
-            </Button>
-          </div>
-        )
-      }))
+              <Button
+                className="small danger"
+                title="Editar Usuário"
+                styleButton="edit"
+                onClick={() => handleCheckout(content.id)}
+              >
+                <div>
+                  <AiOutlineEdit className="icon-danger" />
+                </div>
+              </Button>
+            </div>
+          )
+        }))
       : []
   }, [checkins.data])
 

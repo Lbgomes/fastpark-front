@@ -135,7 +135,9 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-
+  .swal2-styled.swal2-confirm{
+    background-color: #E4672E !important;
+  }
   [id^='global-modal'] {
   position: fixed;
   top: 0;

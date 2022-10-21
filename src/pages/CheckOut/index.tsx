@@ -1,30 +1,19 @@
 import { useEffect, useMemo, useState } from 'react'
-import { AiOutlineCheck, AiOutlineClose, AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineEdit } from 'react-icons/ai'
 import { BiErrorAlt } from 'react-icons/bi'
-import { Link, useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-import Box from '../../components/Box'
 import BreadCrumb from '../../components/BreadCrumb'
 import Button from '../../components/Button/Button/index'
 import Checkbox from '../../components/Checkbox'
-import FormGroup from '../../components/FormGroup'
-import Input from '../../components/Input'
-import Label from '../../components/Label'
-import { hideModal, showModal } from '../../components/modal'
 import PageTitle from '../../components/PageTitle'
 import Table from '../../components/Table'
-import { useUserStore } from '../../GlobalState'
 import CheckinModel from '../../models/checkin'
-import {
-  createCheckin as createCheckinService,
-  getAllCheckin,
-  getAllCheckOut
-} from '../../services/checkin'
-import { Container, FormContainer } from './styles'
+import { getAllCheckOut } from '../../services/checkout'
+import { Container } from './styles'
 
 export default function CheckOut() {
   const [checkins, setCheckin] = useState({} as CheckinModel)
-  const userStore = useUserStore()
 
   const getCheckin = async () => {
     const checkOutList = await getAllCheckOut()
@@ -40,51 +29,24 @@ export default function CheckOut() {
   const contentsToBeShown = useMemo(() => {
     return checkins.data && checkins.data.length
       ? checkins.data.map((content) => ({
-        selectAll: (
-          <div
-            style={{
-              display: 'flex',
-              gap: '5px'
-            }}
-          >
-            <Checkbox />
-          </div>
-        ),
-        id: content.id,
-        title: content.emailFuncionario,
-        hrEntrada: content.hrEntrada,
-        hrSaida: content.hrSaida,
-        Placa: content.car.placa,
-        price: content.valorFinal,
-        model: content.car.modelo,
-        actions: (
-          <div
-            style={{
-              display: 'flex',
-              gap: '5px'
-            }}
-          >
-            <Button
-              className="small danger"
-              title="Editar Usuário"
-              styleButton="edit"
+          selectAll: (
+            <div
+              style={{
+                display: 'flex',
+                gap: '5px'
+              }}
             >
-              <div>
-                <AiOutlineEdit className="icon-danger" />
-              </div>
-            </Button>
-            <Button
-              className="small danger"
-              title="Atenção Usuário"
-              styleButton="attencion"
-            >
-              <div>
-                <BiErrorAlt className="icon-danger" />
-              </div>
-            </Button>
-          </div>
-        )
-      }))
+              <Checkbox />
+            </div>
+          ),
+          id: content.id,
+          title: content.emailFuncionario,
+          hrEntrada: content.hrEntrada,
+          hrSaida: content.hrSaida,
+          Placa: content.car.placa,
+          price: `R$ ${content.valorFinal}`,
+          model: content.car.modelo
+        }))
       : []
   }, [checkins.data])
 
@@ -130,10 +92,6 @@ export default function CheckOut() {
           {
             headerLabel: <span>Valor final</span>,
             propName: 'price'
-          },
-          {
-            headerLabel: <span>Ações</span>,
-            propName: 'actions'
           }
         ]}
         itemsToShow={contentsToBeShown}
