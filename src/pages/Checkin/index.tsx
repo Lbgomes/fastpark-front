@@ -26,17 +26,45 @@ export default function Checkin() {
   const [model, setModel] = useState('')
   const [color, setColor] = useState('')
   const [plate, setPlate] = useState('')
+  const [body, setBody] = useState(false)
   const userStore = useUserStore()
-
-  useEffect(() => {
-    console.log('Teste model: ', model)
-  }, [model])
 
   const clearData = () => {
     setPlate('')
     setColor('')
     setModel('')
+    setBody(false)
   }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    setBody(true)
+  }
+
+  const createBody = async() => {
+    try {
+      const createCheckin = {
+        emailFuncionario: userStore.userEmail,
+        cor: color,
+        modelo: model,
+        placa: plate
+      }
+      console.log('Teste model: ', createCheckin)
+      const res = await createCheckinService(createCheckin)
+      console.log('res: ', res)
+      hideModal()
+      clearData()
+      getCheckin()
+    } catch (e: any) {
+      return alert(`deu erro ${e}`)
+    }
+  }
+
+  useEffect(() => {
+    if(body){
+      createBody()
+    }
+  }, [body])
 
   const newCheckin = () => {
     showModal({
@@ -64,25 +92,6 @@ export default function Checkin() {
       )
     })
   }
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    try {
-      const createCheckin = {
-        emailFuncionario: userStore.userEmail,
-        cor: color,
-        modelo: model,
-        placa: plate
-      }
-      console.log('Teste model: ', createCheckin)
-      await createCheckinService(createCheckin)
-      hideModal()
-      clearData()
-      getCheckin()
-    } catch (e: any) {
-      return alert(`deu erro ${e}`)
-    }
-  }
-
 
   const getCheckin = async () => {
     const checkinList = await getAllCheckin()
@@ -165,11 +174,7 @@ export default function Checkin() {
       <Table
         headersConfig={[
           {
-            headerLabel: <Checkbox />,
-            propName: 'selectAll'
-          },
-          {
-            headerLabel: <span>Responsavel </span>,
+            headerLabel: <span>Responsavel</span>,
             propName: 'title'
           },
           {

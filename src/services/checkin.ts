@@ -18,6 +18,13 @@ export const getAllCheckOut = async (): Promise<CheckOutForList> => {
   return CheckOut
 }
 
+export const createCheckOut = async (id: string) => {
+  const checkOut = (
+    await axios.post(`http://localhost:6060/parking/checkOut/${id}`)
+  ).data
+  return checkOut
+}
+
 export const createCheckin = async (newCheckin: CheckinForCreate) => {
   const checkin = (
     await axios.post('http://localhost:6060/parking/checkIn', newCheckin)
