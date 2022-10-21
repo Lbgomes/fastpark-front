@@ -17,77 +17,19 @@ import { useUserStore } from '../../GlobalState'
 import CheckinModel from '../../models/checkin'
 import {
   createCheckin as createCheckinService,
-  getAllCheckin
+  getAllCheckin,
+  getAllCheckOut
 } from '../../services/checkin'
 import { Container, FormContainer } from './styles'
 
-export default function Checkin() {
+export default function CheckOut() {
   const [checkins, setCheckin] = useState({} as CheckinModel)
-  const [model, setModel] = useState('')
-  const [color, setColor] = useState('')
-  const [plate, setPlate] = useState('')
   const userStore = useUserStore()
 
-  useEffect(() => {
-    console.log('Teste model: ', model)
-  }, [model])
-
-  const clearData = () => {
-    setPlate('')
-    setColor('')
-    setModel('')
-  }
-
-  const newCheckin = () => {
-    showModal({
-      title: 'Novo Checkin',
-      content: (
-        <>
-          <form onSubmit={handleSubmit}>
-            <FormContainer>
-              <FormGroup>
-                <Label>Modelo</Label>
-                <Input type="text" onChange={(e) => setModel(e.target.value)} />
-              </FormGroup>
-              <FormGroup>
-                <Label>Placa</Label>
-                <Input type="text" onChange={(e) => setPlate(e.target.value)} />
-              </FormGroup>
-              <FormGroup>
-                <Label>Cor</Label>
-                <Input type="text" onChange={(e) => setColor(e.target.value)} />
-              </FormGroup>
-            </FormContainer>
-            <Button type="submit">Criar</Button>
-          </form>
-        </>
-      )
-    })
-  }
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    try {
-      const createCheckin = {
-        emailFuncionario: userStore.userEmail,
-        cor: color,
-        modelo: model,
-        placa: plate
-      }
-      console.log('Teste model: ', createCheckin)
-      await createCheckinService(createCheckin)
-      hideModal()
-      clearData()
-      getCheckin()
-    } catch (e: any) {
-      return alert(`deu erro ${e}`)
-    }
-  }
-
-
   const getCheckin = async () => {
-    const checkinList = await getAllCheckin()
-    if (checkinList) {
-      setCheckin(checkinList)
+    const checkOutList = await getAllCheckOut()
+    if (checkOutList) {
+      setCheckin(checkOutList)
     }
   }
 
@@ -111,6 +53,7 @@ export default function Checkin() {
         id: content.id,
         title: content.emailFuncionario,
         hrEntrada: content.hrEntrada,
+        hrSaida: content.hrSaida,
         Placa: content.car.placa,
         price: content.valorFinal,
         model: content.car.modelo,
@@ -152,15 +95,11 @@ export default function Checkin() {
           <Link key={1} to="/home">
             Início
           </Link>,
-          <span key={2}>CheckIn</span>
+          <span key={2}>CheckOut</span>
         ]}
       />
 
-      <PageTitle>CheckIn</PageTitle>
-
-      <Box padding="0 0 20px 0">
-        <Button onClick={newCheckin}>Novo CheckIn</Button>
-      </Box>
+      <PageTitle>CheckOut</PageTitle>
 
       <Table
         headersConfig={[
@@ -177,12 +116,20 @@ export default function Checkin() {
             propName: 'hrEntrada'
           },
           {
+            headerLabel: <span>Data e hora de saida</span>,
+            propName: 'hrSaida'
+          },
+          {
             headerLabel: <span>Modelo</span>,
             propName: 'model'
           },
           {
             headerLabel: <span>Placa</span>,
             propName: 'Placa'
+          },
+          {
+            headerLabel: <span>Valor final</span>,
+            propName: 'price'
           },
           {
             headerLabel: <span>Ações</span>,

@@ -20,7 +20,9 @@ export default function Login() {
       password
     }
     const res = await signIn(data)
+    console.log('Teste res', res)
     setAuthResponse(res.autenticado)
+    userStore.setUserEmail(res.user)
   }
 
   const update = () => {

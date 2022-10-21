@@ -1,4 +1,4 @@
-import { BsJournalText, BsPerson } from 'react-icons/bs'
+import { BsJournalText, BsPerson, BsJournalCheck } from 'react-icons/bs'
 import { ReactComponent as User } from '../../assets/user.svg'
 import {FaUser, FaChartPie} from 'react-icons/fa'
 export const dashboard = {
@@ -36,6 +36,20 @@ export const personalization = [
       </>
     ),
     path: '/checkin'
+
+  },
+
+  {
+    label: (
+      <>
+        <div className="icon">
+          <BsJournalCheck />
+        </div>
+
+        <span className="text">CheckOut</span>
+      </>
+    ),
+    path: '/checkOut'
 
   }
 ]
