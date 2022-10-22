@@ -2,10 +2,9 @@ import React, { useCallback, useState } from 'react'
 import { BiLogOut } from 'react-icons/bi'
 import { Link, useLocation } from 'react-router-dom'
 
+import Logo from '../../assets/LogoFastPark.svg'
 import { dashboard, personalization, others } from './data/menus'
 import { LogoContainer, LogoutButton, Menus, SideBarContainer } from './style'
-
-import Logo from '../../assets/LogoFastPark.svg'
 
 const SideBar: React.FC = () => {
   const location = useLocation()
@@ -13,7 +12,6 @@ const SideBar: React.FC = () => {
   const [menuChildrenToBeShown, setMenuChildrenToBeShown] = useState<number[]>(
     []
   )
-
   const showOrHideMenuChildren = (index: number) => {
     if (menuChildrenToBeShown.includes(index)) {
       const indexOfMenu = menuChildrenToBeShown.indexOf(index)
@@ -26,7 +24,9 @@ const SideBar: React.FC = () => {
 
     setMenuChildrenToBeShown([...menuChildrenToBeShown])
   }
-
+  personalization.map((item, index) => {
+    location.pathname.includes(item.path)
+  })
   const checkShouldShowMenuChildren = useCallback(
     (index: number) => {
       return menuChildrenToBeShown.includes(index)
@@ -60,23 +60,21 @@ const SideBar: React.FC = () => {
           <div className="options">
             {personalization && personalization.length ? (
               personalization.map((menu, index) => (
-                <Link
-                key={menu.path}
-                to={menu.path}>
+                <Link key={menu.path} to={menu.path}>
                   <div key={index}>
-                    <button onClick={() => showOrHideMenuChildren(index)}>
+                    <button
+                      className={`${
+                        location.pathname.includes(menu.path) ? 'active' : ''
+                      }`}
+                      onClick={() => showOrHideMenuChildren(index)}
+                    >
                       {menu.label}
-                      <span
-                        className={`sub-items ${
-                            menuChildrenToBeShown.includes(index) ? 'active' : ''
-                        }`}
-                        >
-                      </span>
+                      <span></span>
                     </button>
-
                   </div>
-                          </Link>
-            ))) : (
+                </Link>
+              ))
+            ) : (
               <></>
             )}
           </div>
@@ -100,7 +98,7 @@ const SideBar: React.FC = () => {
           </div>
         </div>
 
-        <LogoutButton >
+        <LogoutButton>
           <span className="icon">
             <BiLogOut />
           </span>

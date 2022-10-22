@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
+import Swal from 'sweetalert2'
+
 import LogoFastPark from '../../assets/LogoFastPark.svg'
 import { useUserStore } from '../../GlobalState'
 import { signIn } from '../../services/request'
@@ -19,10 +21,17 @@ export default function Login() {
       email,
       password
     }
-    const res = await signIn(data)
-    console.log('Teste res', res)
-    setAuthResponse(res.autenticado)
-    userStore.setUserEmail(res.user)
+    try {
+      const res = await signIn(data)
+      setAuthResponse(res.autenticado)
+      userStore.setUserEmail(res.user)
+    } catch (error) {
+      Swal.fire({
+        title: 'Deu ruim',
+        text: error.response.data.msg,
+        icon: 'error'
+      })
+    }
   }
 
   const update = () => {
