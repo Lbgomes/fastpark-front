@@ -24,9 +24,7 @@ const SideBar: React.FC = () => {
 
     setMenuChildrenToBeShown([...menuChildrenToBeShown])
   }
-  personalization.map((item, index) => {
-    location.pathname.includes(item.path)
-  })
+
   const checkShouldShowMenuChildren = useCallback(
     (index: number) => {
       return menuChildrenToBeShown.includes(index)
