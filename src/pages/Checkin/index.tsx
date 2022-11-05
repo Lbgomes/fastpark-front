@@ -20,6 +20,7 @@ import {
   createCheckin as createCheckinService,
   getAllCheckin,
 } from "../../services/checkin";
+import InputMask from "react-input-mask";
 import { createCheckOut } from "../../services/checkout";
 import { Container, FormContainer, DateTime } from "./styles";
 
@@ -122,7 +123,11 @@ export default function Checkin() {
               </FormGroup>
               <FormGroup>
                 <Label>Placa</Label>
-                <Input type="text" onChange={(e) => setPlate(e.target.value)} />
+                <InputMask
+                  className="inputMask"
+                  mask="aaa-9999"
+                  onChange={(e) => setPlate(e.target.value)}
+                />
               </FormGroup>
               <FormGroup>
                 <Label>Cor</Label>
