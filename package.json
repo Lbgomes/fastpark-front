@@ -11,6 +11,8 @@
         "@types/node": "^16.11.65",
         "@types/react": "^18.0.21",
         "@types/react-dom": "^18.0.6",
+        "base64topdf": "^1.1.8",
+        "common-base64-downloader-react": "^1.0.7",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.4.0",
@@ -30,7 +32,6 @@
         "eject": "react-scripts eject",
         "lint": "eslint"
     },
-
     "browserslist": {
         "production": [
             ">0.2%",

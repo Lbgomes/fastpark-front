@@ -51,7 +51,7 @@ export default function CheckOut() {
   }, [checkout]);
 
   const OrderDate = (increase: boolean) => {
-    console.log(checkout);
+    checkout;
     if (increase === true) {
       const newDate = checkout.data.sort((a, b) =>
         a.hrEntrada < b.hrEntrada ? -1 : 1
@@ -65,7 +65,6 @@ export default function CheckOut() {
     }
   };
   const OrderDateOut = (increase: boolean) => {
-    console.log(checkout);
     if (increase === true) {
       const newDate = checkout.data.sort((a, b) =>
         a.hrSaida < b.hrSaida ? -1 : 1

@@ -2884,6 +2884,13 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+base64topdf@^1.1.8:
+  version "1.1.8"
+  resolved "https://registry.yarnpkg.com/base64topdf/-/base64topdf-1.1.8.tgz#c3c9c63a4783cb8b99c7cad2818585d4b5e4f5d8"
+  integrity sha512-nKuSq9EiuupC93SP0f5Hm5WYlgtPnmc1CGtuXXFChvoKazsYdanLcUYUSDaQhrY+VHKrLR8svcbpN2bHnO793w==
+  dependencies:
+    fs "0.0.1-security"
+
 batch@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/batch/-/batch-0.6.1.tgz#dc34314f4e679318093fc760272525f94bf25c16"
@@ -3232,6 +3239,11 @@ commander@^8.3.0:
   version "8.3.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-8.3.0.tgz#4837ea1b2da67b9c616a67afbb0fafee567bca66"
   integrity sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww==
+
+common-base64-downloader-react@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/common-base64-downloader-react/-/common-base64-downloader-react-1.0.7.tgz#906acf939ca66730c3310e3c422970be09ceaa93"
+  integrity sha512-5qIMAeZc508towfpOMKSWMnz6wdzFG3uscKp9JoyHT3lfsZezf8om4v5aYH8fwjiP+wwOLgQkf4/AlXGlZhvew==
 
 common-path-prefix@^3.0.0:
   version "3.0.0"
@@ -4590,6 +4602,11 @@ fs.realpath@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fs.realpath/-/fs.realpath-1.0.0.tgz#1504ad2523158caa40db4a2787cb01411994ea4f"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
+
+fs@0.0.1-security:
+  version "0.0.1-security"
+  resolved "https://registry.yarnpkg.com/fs/-/fs-0.0.1-security.tgz#8a7bd37186b6dddf3813f23858b57ecaaf5e41d4"
+  integrity sha512-3XY9e1pP0CVEUCdj5BmfIZxRBTSDycnbqhIOGec9QYtmVH2fbLpj86CFWkrNOkt/Fvty4KZG5lTglL9j/gJ87w==
 
 fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.2"

@@ -63,7 +63,7 @@ export default function Checkin() {
           await createCheckOut(checkinId);
           Swal.fire({
             title: "Sucesso",
-            text: "Checkin criado com sucesso",
+            text: "Checkout criado com sucesso",
             icon: "success",
           });
           getCheckin();
