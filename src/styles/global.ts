@@ -1,4 +1,4 @@
-import { createGlobalStyle, css } from 'styled-components'
+import { createGlobalStyle, css } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
 :root {
@@ -151,8 +151,11 @@ const GlobalStyles = createGlobalStyle`
   justify-content: center;
   align-items: center;
 }
+.css-319lph-ValueContainer{
+    display: flex !important;
+}
 
 
-`
+`;
 
-export default GlobalStyles
+export default GlobalStyles;
