@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components'
+import styled, { css } from "styled-components";
 
 export const DefaultTablePagination = styled.div`
   display: flex;
@@ -7,21 +7,21 @@ export const DefaultTablePagination = styled.div`
   align-items: center;
   gap: 5px;
   margin-top: 10px;
-`
+`;
 export const DefaultTableContainer = styled.div`
   width: 100%;
-`
+`;
 export const TableWrapper = styled.div`
   ${({ theme }) => css`
     background-color: ${theme.colors.black};
     border-radius: 0.4rem;
   `}
-`
+`;
 
 export const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
-`
+`;
 
 export const Thead = styled.thead`
   ${({ theme }) => css`
@@ -33,7 +33,7 @@ export const Thead = styled.thead`
       border-bottom: 1px solid ${theme.colors.white};
     }
   `}
-`
+`;
 
 export const Th = styled.th`
   ${({ theme }) => css`
@@ -45,25 +45,21 @@ export const Th = styled.th`
     &:first-child {
       width: 3%;
     }
-
-    &:last-child {
-      width: 10%;
-    }
   `}
-`
+`;
 
 export const Tr = styled.tr`
   text-align: left;
   text-overflow: ellipsis;
-`
+`;
 
 export const Tbody = styled.tbody`
   font-size: 1.4rem;
-`
+`;
 
 export const Td = styled.td`
   padding: 1.6rem;
-`
+`;
 
 export const TFoot = styled.div`
   ${({ theme }) => css`
@@ -73,7 +69,7 @@ export const TFoot = styled.div`
       line-height: 1.9rem;
     }
   `}
-`
+`;
 
 export const PaginationContainer = styled.div`
   ${({ theme }) => css`
@@ -85,4 +81,4 @@ export const PaginationContainer = styled.div`
     height: 8.4rem;
     line-height: 1.9rem;
   `}
-`
+`;

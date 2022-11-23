@@ -25,11 +25,11 @@ export const Report = () => {
       value: 1,
     },
     {
-      label: "Relatório de entrada de veiculo por periodo",
+      label: "Relatório de atendimentos concluidos por período",
       value: 2,
     },
     {
-      label: "Relatório de atendimentos concluidos por período",
+      label: "Relatório de entrada de veiculo por periodo",
       value: 3,
     },
   ];
