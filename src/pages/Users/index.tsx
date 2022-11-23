@@ -30,6 +30,7 @@ export default function Users() {
   const [name, setName] = useState("");
   const [idUser, setIdUser] = useState("");
   const [email, setEmail] = useState("");
+  console.log({ email });
   const handleUser = async (userData: UserForCreate) => {
     Swal.fire({
       title: "Você tem certeza?",
@@ -91,7 +92,9 @@ export default function Users() {
       });
     }
   };
-  const updateUserModal = () => {
+  const updateUserModal = (userName, userEmail) => {
+    setEmail(userEmail);
+    setName(userName);
     showModal({
       title: "Novo Checkin",
       content: (
@@ -100,11 +103,19 @@ export default function Users() {
             <FormContainer>
               <FormGroup>
                 <Label>Nome</Label>
-                <Input type="text" onChange={(e) => setName(e.target.value)} />
+                <Input
+                  value={name}
+                  type="text"
+                  onChange={(e) => setName(e.target.value)}
+                />
               </FormGroup>
               <FormGroup>
                 <Label>Email</Label>
-                <Input type="text" onChange={(e) => setEmail(e.target.value)} />
+                <Input
+                  value={email}
+                  type="text"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </FormGroup>
             </FormContainer>
             <Button type="submit">Criar</Button>
@@ -168,7 +179,13 @@ export default function Users() {
               <Button
                 className="small danger"
                 styleButton="attencion"
-                onClick={updateUserModal}
+                onClick={() => {
+                  setEmail(content.email);
+                  setName(content.name);
+                  setTimeout(() => {
+                    updateUserModal(content.name, content.email);
+                  }, 1000);
+                }}
               >
                 <div>
                   <AiOutlineClose className="icon-danger" />
