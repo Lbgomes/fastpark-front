@@ -51,7 +51,6 @@ export default function Users() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          console.log('entrou')
           await handleDisableUser(userData.id);
           Swal.fire({
             title: "Sucesso",
@@ -76,7 +75,7 @@ export default function Users() {
       const bodyId = {
         id: idUser
       }
-      console.log("teste id 1", bodyId)
+
       await disableUser(bodyId);
     } catch (error) {
       Swal.fire({
@@ -95,7 +94,7 @@ export default function Users() {
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
-    console.log('clickou')
+    
     event.preventDefault();
     setBody(true);
   };
@@ -108,7 +107,7 @@ export default function Users() {
         email: email,
         disabled: typeReportSelected.value,
       };
-      console.log('TEste body 2', createCheckin)
+      
       await updateUser(createCheckin);
       Swal.fire({
         title: "Sucesso",
@@ -128,7 +127,7 @@ export default function Users() {
   };
 
   useEffect(() => {
-    console.log('Tese state', body)
+    
     if (body) {
       createBody();
     }
@@ -146,7 +145,7 @@ export default function Users() {
       },
     ];
 
-    console.log("Teste email 2", userEmail)
+    
     showModal({
       title: "Atualização de usuário",
       content: (
@@ -221,7 +220,7 @@ export default function Users() {
                 setIdUser(content.id);
                 setEmail(content.email);
                 setName(content.name);
-                console.log('TEste email', content.email)
+                
                 setTimeout(() => {
                   updateUserModal(content.name, content.email);
                 }, 1000);

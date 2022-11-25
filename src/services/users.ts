@@ -19,7 +19,7 @@ export const updateUser = async (updatedUser: UserForCreate) => {
 };
 
 export const disableUser = async (userId: DisableUsers) => {
-  console.log('Teste id', userId)
+  
   const user = (await axios.post("http://localhost:6060/users/disable", userId)).data;
   return user;
 };
