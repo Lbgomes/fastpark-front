@@ -70,7 +70,7 @@ export const Report = () => {
         <InputSelect
           isMulti={false}
           options={options}
-          title="teste"
+          title="Tipo do relatório"
           onChange={(options) => {
             setTypeReportSelected({
               label: options.label,

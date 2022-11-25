@@ -4,7 +4,7 @@ import { Dropdown } from "./styles";
 
 type inputSelectType = {
   label?: string;
-  value?: number;
+  value?: number | boolean;
 };
 interface inputSelectProps {
   options?: inputSelectType[];

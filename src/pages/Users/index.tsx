@@ -12,6 +12,7 @@ import Input from "../../components/Input";
 import Label from "../../components/Label";
 import { hideModal, showModal } from "../../components/modal";
 import PageTitle from "../../components/PageTitle";
+import InputSelect from "../../components/Select";
 import Table from "../../components/Table";
 import UserForCreate from "../../models/forCreate/UserForCreate";
 
@@ -30,7 +31,10 @@ export default function Users() {
   const [name, setName] = useState("");
   const [idUser, setIdUser] = useState("");
   const [email, setEmail] = useState("");
-  console.log({ email });
+  const [typeReportSelected, setTypeReportSelected] = useState(
+    {} as { label: string; value: boolean }
+  );
+  console.log({ typeReportSelected });
   const handleUser = async (userData: UserForCreate) => {
     Swal.fire({
       title: "Você tem certeza?",
@@ -68,12 +72,13 @@ export default function Users() {
     setName("");
   };
   const handleSubmit = async () => {
+    event.preventDefault();
     try {
       const createCheckin = {
         id: idUser,
         name: name,
         email: email,
-        disabled: false,
+        disabled: typeReportSelected.value,
       };
       await updateUser(createCheckin);
       Swal.fire({
@@ -93,8 +98,16 @@ export default function Users() {
     }
   };
   const updateUserModal = (userName, userEmail) => {
-    setEmail(userEmail);
-    setName(userName);
+    const options = [
+      {
+        label: "Ativado",
+        value: false,
+      },
+      {
+        label: "Desativado",
+        value: true,
+      },
+    ];
     showModal({
       title: "Novo Checkin",
       content: (
@@ -103,20 +116,23 @@ export default function Users() {
             <FormContainer>
               <FormGroup>
                 <Label>Nome</Label>
-                <Input
-                  value={name}
-                  type="text"
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <Input type="text" onChange={(e) => setName(e.target.value)} />
               </FormGroup>
               <FormGroup>
                 <Label>Email</Label>
-                <Input
-                  value={email}
-                  type="text"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                <Input type="text" onChange={(e) => setEmail(e.target.value)} />
               </FormGroup>
+              <InputSelect
+                isMulti={false}
+                options={options}
+                title="Usuário"
+                onChange={(options) => {
+                  setTypeReportSelected({
+                    label: options.label,
+                    value: options.value,
+                  });
+                }}
+              ></InputSelect>
             </FormContainer>
             <Button type="submit">Criar</Button>
           </form>
