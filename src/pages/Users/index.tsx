@@ -31,10 +31,12 @@ export default function Users() {
   const [name, setName] = useState("");
   const [idUser, setIdUser] = useState("");
   const [email, setEmail] = useState("");
+  const [body, setBody] = useState(false);
+
   const [typeReportSelected, setTypeReportSelected] = useState(
     {} as { label: string; value: boolean }
   );
-  console.log({ typeReportSelected });
+
   const handleUser = async (userData: UserForCreate) => {
     Swal.fire({
       title: "Você tem certeza?",
@@ -55,7 +57,7 @@ export default function Users() {
             text: "Checkout criado com sucesso",
             icon: "success",
           });
-          getAllUsers();
+          getUsers();
         } catch (error) {
           Swal.fire(
             "Deu ruim!",
@@ -71,8 +73,11 @@ export default function Users() {
     setEmail("");
     setName("");
   };
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    setBody(true);
+  };
+  const createBody = async () => {
     try {
       const createCheckin = {
         id: idUser,
@@ -88,7 +93,7 @@ export default function Users() {
       });
       hideModal();
       clearData();
-      getAllUsers();
+      getUsers();
     } catch (e: any) {
       Swal.fire({
         title: "Deu ruim",
@@ -97,6 +102,13 @@ export default function Users() {
       });
     }
   };
+
+  useEffect(() => {
+    if (body) {
+      createBody();
+    }
+  }, [body]);
+
   const updateUserModal = (userName, userEmail) => {
     const options = [
       {
@@ -196,6 +208,7 @@ export default function Users() {
                 className="small danger"
                 styleButton="attencion"
                 onClick={() => {
+                  setIdUser(content.id);
                   setEmail(content.email);
                   setName(content.name);
                   setTimeout(() => {
