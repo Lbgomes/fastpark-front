@@ -19,7 +19,7 @@ import UserForCreate from "../../models/forCreate/UserForCreate";
 import UsersModel from "../../models/users";
 import {
   getAllUsers,
-  handleUser as handleUserService,
+  disableUser,
   updateUser,
 } from "../../services/users";
 import { FormContainer } from "../Checkin/styles";
@@ -45,38 +45,61 @@ export default function Users() {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Sim, realizar checkout",
+      confirmButtonText: "Sim, desejo desativar.",
       width: 600,
       heightAuto: true,
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await updateUser(userData);
+          console.log('entrou')
+          await handleDisableUser(userData.id);
           Swal.fire({
             title: "Sucesso",
-            text: "Checkout criado com sucesso",
+            text: "Usuário atualizado com sucesso.",
             icon: "success",
           });
           getUsers();
         } catch (error) {
           Swal.fire(
             "Deu ruim!",
-            "Não foi possível realizar o checkout",
+            "Não foi possivel atualizar o usuário.",
             "error"
           );
         }
       }
     });
   };
+
+  const handleDisableUser = async (idUser) => {
+    try {
+
+      const bodyId = {
+        id: idUser
+      }
+      console.log("teste id 1", bodyId)
+      await disableUser(bodyId);
+    } catch (error) {
+      Swal.fire({
+        title: "Deu ruim",
+        text: "Houve um erro ao atualizar o usuário.",
+        icon: "error",
+      });
+    }
+  }
+
   const clearData = () => {
     setIdUser("");
     setEmail("");
     setName("");
+    setBody(false);
   };
+
   const handleSubmit = async (event: React.FormEvent) => {
+    console.log('clickou')
     event.preventDefault();
     setBody(true);
   };
+
   const createBody = async () => {
     try {
       const createCheckin = {
@@ -85,10 +108,11 @@ export default function Users() {
         email: email,
         disabled: typeReportSelected.value,
       };
+      console.log('TEste body 2', createCheckin)
       await updateUser(createCheckin);
       Swal.fire({
         title: "Sucesso",
-        text: "Checkin criado com sucesso",
+        text: "Usuário atualizado com sucesso.",
         icon: "success",
       });
       hideModal();
@@ -97,13 +121,14 @@ export default function Users() {
     } catch (e: any) {
       Swal.fire({
         title: "Deu ruim",
-        text: "Houve um erro ao criar o checkin",
+        text: "Houve um erro ao atualizar o usuário.",
         icon: "error",
       });
     }
   };
 
   useEffect(() => {
+    console.log('Tese state', body)
     if (body) {
       createBody();
     }
@@ -120,19 +145,21 @@ export default function Users() {
         value: true,
       },
     ];
+
+    console.log("Teste email 2", userEmail)
     showModal({
-      title: "Novo Checkin",
+      title: "Atualização de usuário",
       content: (
         <>
           <form onSubmit={handleSubmit}>
             <FormContainer>
               <FormGroup>
                 <Label>Nome</Label>
-                <Input type="text" onChange={(e) => setName(e.target.value)} />
+                <Input type="text" defaultValue={userName} onChange={(e) => setName(e.target.value)} />
               </FormGroup>
               <FormGroup>
                 <Label>Email</Label>
-                <Input type="text" onChange={(e) => setEmail(e.target.value)} />
+                <Input type="text" defaultValue={userEmail} onChange={(e) => setEmail(e.target.value)} />
               </FormGroup>
               <InputSelect
                 isMulti={false}
@@ -156,73 +183,74 @@ export default function Users() {
   const contentsToBeShown = useMemo(() => {
     return user.users && user.users.length
       ? user.users.map((content) => ({
-          selectAll: (
-            <div
-              style={{
-                display: "flex",
-                gap: "5px",
+        selectAll: (
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+            }}
+          >
+            <Checkbox />
+          </div>
+        ),
+        id: content.id,
+        name: content.name,
+        email: content.email,
+        active: (
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+            }}
+          >
+            {content.disabled === true ? <>sim</> : <>não</>}
+          </div>
+        ),
+        actions: (
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+            }}
+          >
+            <Button
+              className="small danger"
+              title="Alterar visibilidade"
+              styleButton="edit"
+              onClick={(e) => {
+                setIdUser(content.id);
+                setEmail(content.email);
+                setName(content.name);
+                console.log('TEste email', content.email)
+                setTimeout(() => {
+                  updateUserModal(content.name, content.email);
+                }, 1000);
               }}
             >
-              <Checkbox />
-            </div>
-          ),
-          id: content.id,
-          name: content.name,
-          email: content.email,
-          active: (
-            <div
-              style={{
-                display: "flex",
-                gap: "5px",
+              <div>
+                <AiOutlineEdit className="icon-danger" />
+              </div>
+            </Button>
+            <Button
+              className="small danger"
+              styleButton="attencion"
+              onClick={(e) => {
+                e.preventDefault();
+                handleUser({
+                  disabled: !content.disabled,
+                  email: content.email,
+                  id: content.id,
+                  name: content.name,
+                });
               }}
             >
-              {content.disabled === true ? <>sim</> : <>não</>}
-            </div>
-          ),
-          actions: (
-            <div
-              style={{
-                display: "flex",
-                gap: "5px",
-              }}
-            >
-              <Button
-                className="small danger"
-                title="Alterar visibilidade"
-                styleButton="edit"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleUser({
-                    disabled: !content.disabled,
-                    email: content.email,
-                    id: content.id,
-                    name: content.name,
-                  });
-                }}
-              >
-                <div>
-                  <AiOutlineEdit className="icon-danger" />
-                </div>
-              </Button>
-              <Button
-                className="small danger"
-                styleButton="attencion"
-                onClick={() => {
-                  setIdUser(content.id);
-                  setEmail(content.email);
-                  setName(content.name);
-                  setTimeout(() => {
-                    updateUserModal(content.name, content.email);
-                  }, 1000);
-                }}
-              >
-                <div>
-                  <AiOutlineClose className="icon-danger" />
-                </div>
-              </Button>
-            </div>
-          ),
-        }))
+              <div>
+                <AiOutlineClose className="icon-danger" />
+              </div>
+            </Button>
+          </div>
+        ),
+      }))
       : [];
   }, [user]);
 

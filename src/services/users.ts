@@ -2,6 +2,10 @@ import axios from "axios";
 import UserForCreate from "../models/forCreate/UserForCreate";
 import Users from "../models/users";
 
+interface DisableUsers {
+  id: string
+}
+
 export const getAllUsers = async (): Promise<Users> => {
   const user = (await axios.get("http://localhost:6060/users/list")).data;
   return user;
@@ -14,8 +18,8 @@ export const updateUser = async (updatedUser: UserForCreate) => {
   return user;
 };
 
-export const handleUser = async (userId: { id: string }) => {
-  const user = (await axios.post("http://localhost:6060/users/disable", userId))
-    .data;
+export const disableUser = async (userId: DisableUsers) => {
+  console.log('Teste id', userId)
+  const user = (await axios.post("http://localhost:6060/users/disable", userId)).data;
   return user;
 };

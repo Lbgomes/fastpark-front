@@ -23,6 +23,7 @@ export const Menus = styled.div`
   align-items: flex-end;
   height: 100%;
   background-color: #101010;
+  overflow-y: scroll;
 
   > div {
     width: 100%;
